@@ -268,7 +268,7 @@
           timestamp: now,
           performanceTime: performanceTime,
           readable: readable,
-          relativeTime: performanceTime - firstEventTime,
+          relativeTime: Math.floor(performanceTime - firstEventTime),
         };
       }
 
