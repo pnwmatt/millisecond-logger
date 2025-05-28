@@ -1,358 +1,398 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Millisecond Event Logger</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        h1 {
-            text-align: center;
-            color: #4a5568;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-        
-        .input-section {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-        }
-        
-        .status {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .ready {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .typing {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #cbd5e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .controls {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .clear-btn {
-            background: #e53e3e;
-            color: white;
-        }
-        
-        .clear-btn:hover {
-            background: #c53030;
-        }
-        
-        .export-btn {
-            background: #38a169;
-            color: white;
-        }
-        
-        .export-btn:hover {
-            background: #2f855a;
-        }
-        
-        .log-section {
-            background: #1a202c;
-            border-radius: 10px;
-            padding: 20px;
-            color: #e2e8f0;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .log-header {
-            color: #63b3ed;
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .log-entry {
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 5px;
-            border-left: 3px solid #667eea;
-        }
-        
-        .timestamp {
-            color: #68d391;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .message {
-            color: white;
-        }
-        
-        .empty-log {
-            text-align: center;
-            color: #a0aec0;
-            font-style: italic;
-            padding: 20px;
-        }
-        
-        .stats {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 5px;
-            font-size: 14px;
-            color: #cbd5e0;
-        }
-        
-        .current-time {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: #68d391;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            z-index: 1000;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .about {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        color: #4a5568;
+      }
+      .container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: #4a5568;
+        margin-bottom: 30px;
+        font-size: 2em;
+      }
+
+      .input-section {
+        margin-bottom: 30px;
+        margin-right: 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+      }
+
+      .status {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .ready {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .typing {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+
+      input[type="text"] {
+        padding: 15px;
+        width: 100%;
+        border: 2px solid #cbd5e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .controls {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .clear-btn {
+        background: #e53e3e;
+        color: white;
+      }
+
+      .clear-btn:hover {
+        background: #c53030;
+      }
+
+      .export-btn {
+        background: #38a169;
+        color: white;
+      }
+
+      .export-btn:hover {
+        background: #2f855a;
+      }
+
+      .log-section {
+        background: #1a202c;
+        border-radius: 10px;
+        padding: 20px;
+        color: #e2e8f0;
+        font-family: "Courier New", monospace;
+      }
+
+      .log-header {
+        color: #63b3ed;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .log-entry {
+        margin-bottom: 10px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 5px;
+        border-left: 3px solid #667eea;
+      }
+
+      .timestamp {
+        color: #68d391;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .message {
+        color: white;
+      }
+
+      .empty-log {
+        text-align: center;
+        color: #a0aec0;
+        font-style: italic;
+        padding: 20px;
+      }
+
+      .stats {
+        margin-top: 15px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        font-size: 14px;
+        color: #cbd5e0;
+      }
+
+      .current-time {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #68d391;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        z-index: 1000;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="current-time" id="currentTime">00:00:00.000</div>
-    
+
     <div class="container">
-        <h1>⏱️ Millisecond Event Logger</h1>
-        
-        <div class="input-section">
-            <div class="status ready" id="status">Ready - Start typing to capture timestamp</div>
-            <input type="text" id="messageInput" placeholder="Type your message here..." autocomplete="off">
-            <div class="controls">
-                <button class="clear-btn" onclick="clearLog()">Clear Log</button>
-                <button class="export-btn" onclick="exportLog()">Export CSV</button>
-            </div>
+      <h1>⏱️ Millisecond Event Logger</h1>
+      <div class="about">
+        A privacy-respecting web-based utility to manually type logged
+        events.<br />Each entry's timestamp is based on when you started typing.
+      </div>
+
+      <div class="input-section">
+        <div class="status ready" id="status">
+          Ready - Start typing to capture timestamp
         </div>
-        
-        <div class="log-section">
-            <div class="log-header">📝 Event Log</div>
-            <div id="logContainer">
-                <div class="empty-log">No events logged yet. Start typing to begin!</div>
-            </div>
-            <div class="stats" id="stats">Total events: 0</div>
+        <div style="display: flex">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type your message here..."
+            autocomplete="off"
+          />
         </div>
+        <div class="controls">
+          <button class="clear-btn" onclick="clearLog()">Clear Log</button>
+          <button class="export-btn" onclick="exportLog()">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="log-section">
+        <div class="log-header">📝 Event Log</div>
+        <div id="logContainer">
+          <div class="empty-log">
+            No events logged yet. Start typing to begin!
+          </div>
+        </div>
+        <div class="stats" id="stats">Total events: 0</div>
+      </div>
     </div>
 
     <script>
-        let events = [];
-        let isWaitingForInput = true;
-        let firstEventTime = null;
-        let currentEventStartTime = null;
-        
-        const statusEl = document.getElementById('status');
-        const inputEl = document.getElementById('messageInput');
-        const logContainer = document.getElementById('logContainer');
-        const statsEl = document.getElementById('stats');
-        const currentTimeEl = document.getElementById('currentTime');
-        
-        function updateCurrentTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
-            currentTimeEl.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+      let events = [];
+      let isWaitingForInput = true;
+      let firstEventTime = null;
+      let currentEventStartTime = null;
+
+      const statusEl = document.getElementById("status");
+      const inputEl = document.getElementById("messageInput");
+      const logContainer = document.getElementById("logContainer");
+      const statsEl = document.getElementById("stats");
+      const currentTimeEl = document.getElementById("currentTime");
+
+      function updateCurrentTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+        const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
+        currentTimeEl.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+      }
+
+      function updateStatus(isReady) {
+        if (isReady) {
+          statusEl.textContent = "Ready - Start typing to capture timestamp";
+          statusEl.className = "status ready";
+          isWaitingForInput = true;
+        } else {
+          statusEl.textContent = "Typing... (Press Enter to submit)";
+          statusEl.className = "status typing";
+          isWaitingForInput = false;
         }
-        
-        function updateStatus(isReady) {
-            if (isReady) {
-                statusEl.textContent = 'Ready - Start typing to capture timestamp';
-                statusEl.className = 'status ready';
-                isWaitingForInput = true;
-            } else {
-                statusEl.textContent = 'Typing... (Press Enter to submit)';
-                statusEl.className = 'status typing';
-                isWaitingForInput = false;
-            }
+      }
+
+      function captureTimestamp() {
+        const now = Date.now();
+        const performanceTime = performance.now();
+
+        // Format as 24-hour time with milliseconds
+        const date = new Date(now);
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+        const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
+        const readable = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+
+        // Set first event time if this is the first event
+        if (firstEventTime === null) {
+          firstEventTime = performanceTime;
         }
-        
-        function captureTimestamp() {
-            const now = Date.now();
-            const performanceTime = performance.now();
-            
-            // Format as 24-hour time with milliseconds
-            const date = new Date(now);
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
-            const readable = `${hours}:${minutes}:${seconds}.${milliseconds}`;
-            
-            // Set first event time if this is the first event
-            if (firstEventTime === null) {
-                firstEventTime = performanceTime;
-            }
-            
-            return {
-                timestamp: now,
-                performanceTime: performanceTime,
-                readable: readable,
-                relativeTime: performanceTime - firstEventTime
-            };
-        }
-        
-        function addEvent(message, timeData) {
-            const event = {
-                id: events.length + 1,
-                message: message,
-                ...timeData
-            };
-            
-            events.push(event);
-            updateLogDisplay();
-        }
-        
-        function updateLogDisplay() {
-            if (events.length === 0) {
-                logContainer.innerHTML = '<div class="empty-log">No events logged yet. Start typing to begin!</div>';
-                statsEl.textContent = 'Total events: 0';
-                return;
-            }
-            
-            const logHTML = events.map(event => `
-                <div class="log-entry">
-                    <span class="timestamp">[${event.readable}] (+${event.relativeTime.toFixed(3)}ms)</span>
-                    <span class="message">${event.message || '(empty message)'}</span>
-                </div>
-            `).join('');
-            
-            logContainer.innerHTML = logHTML;
-            logContainer.scrollTop = logContainer.scrollHeight;
-            
-            statsEl.textContent = `Total events: ${events.length}`;
-        }
-        
-        function clearLog() {
-            if (events.length > 0 && !confirm('Are you sure you want to clear all logged events?')) {
-                return;
-            }
-            events = [];
-            firstEventTime = null;
-            currentEventStartTime = null;
-            updateLogDisplay();
-            updateStatus(true);
-            inputEl.focus();
-        }
-        
-        function exportLog() {
-            if (events.length === 0) {
-                alert('No events to export!');
-                return;
-            }
-            
-            const csvContent = [
-                'Event ID,Timestamp,Readable Time,Relative Time (ms),Message',
-                ...events.map(event => 
-                    `${event.id},"${event.timestamp}","${event.readable}","${event.relativeTime.toFixed(3)}","${event.message.replace(/"/g, '""')}"`
-                )
-            ].join('\n');
-            
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `event_log_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-        
-        // Event listeners
-        inputEl.addEventListener('input', function(e) {
-            if (isWaitingForInput && inputEl.value.length > 0) {
-                // Capture and store the timestamp the moment they start typing actual content
-                currentEventStartTime = captureTimestamp();
-                updateStatus(false);
-            }
-        });
-        
-        inputEl.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const message = inputEl.value.trim();
-                
-                // Use the stored start time, not current time
-                if (currentEventStartTime) {
-                    addEvent(message, currentEventStartTime);
-                }
-                
-                inputEl.value = '';
-                currentEventStartTime = null;
-                updateStatus(true);
-            }
-        });
-        
-        // Start the current time display
-        setInterval(updateCurrentTime, 50); // Update every 50ms for smooth display
-        updateCurrentTime();
-        
-        // Focus the input on page load
-        window.addEventListener('load', function() {
-            inputEl.focus();
-        });
-        
-        // Initialize display
+
+        return {
+          timestamp: now,
+          performanceTime: performanceTime,
+          readable: readable,
+          relativeTime: performanceTime - firstEventTime,
+        };
+      }
+
+      function addEvent(message, timeData) {
+        const event = {
+          id: events.length + 1,
+          message: message,
+          ...timeData,
+        };
+
+        events.push(event);
         updateLogDisplay();
+      }
+
+      function updateLogDisplay() {
+        if (events.length === 0) {
+          logContainer.innerHTML =
+            '<div class="empty-log">No events logged yet. Start typing to begin!</div>';
+          statsEl.textContent = "Total events: 0";
+          return;
+        }
+
+        const logHTML = events
+          .map(
+            (event) => `
+                <div class="log-entry">
+                    <span class="timestamp">[${event.readable}] (+${
+              event.relativeTime
+            }ms)</span>
+                    <span class="message">${
+                      event.message || "(empty message)"
+                    }</span>
+                </div>
+            `
+          )
+          .join("");
+
+        logContainer.innerHTML = logHTML;
+        logContainer.scrollTop = logContainer.scrollHeight;
+
+        statsEl.textContent = `Total events: ${events.length}`;
+      }
+
+      function clearLog() {
+        if (
+          events.length > 0 &&
+          !confirm("Are you sure you want to clear all logged events?")
+        ) {
+          return;
+        }
+        events = [];
+        firstEventTime = null;
+        currentEventStartTime = null;
+        updateLogDisplay();
+        updateStatus(true);
+        inputEl.focus();
+      }
+
+      function exportLog() {
+        if (events.length === 0) {
+          alert("No events to export!");
+          return;
+        }
+
+        const csvContent = [
+          "Event ID,Timestamp,Readable Time,Relative Time (ms),Message",
+          ...events.map(
+            (event) =>
+              `${event.id},"${event.timestamp}","${event.readable}","${
+                event.relativeTime
+              }","${event.message.replace(/"/g, '""')}"`
+          ),
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `event_log_${new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace(/:/g, "-")}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      // Event listeners
+      inputEl.addEventListener("input", function (e) {
+        if (isWaitingForInput && inputEl.value.length > 0) {
+          // Capture and store the timestamp the moment they start typing actual content
+          currentEventStartTime = captureTimestamp();
+          updateStatus(false);
+        }
+      });
+
+      inputEl.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const message = inputEl.value.trim();
+
+          // Use the stored start time, not current time
+          if (currentEventStartTime) {
+            addEvent(message, currentEventStartTime);
+          }
+
+          inputEl.value = "";
+          currentEventStartTime = null;
+          updateStatus(true);
+        }
+      });
+
+      // Start the current time display
+      setInterval(updateCurrentTime, 50); // Update every 50ms for smooth display
+      updateCurrentTime();
+
+      // Focus the input on page load
+      window.addEventListener("load", function () {
+        inputEl.focus();
+      });
+
+      // Initialize display
+      updateLogDisplay();
     </script>
-</body>
+  </body>
 </html>
